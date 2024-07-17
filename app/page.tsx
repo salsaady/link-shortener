@@ -2,10 +2,12 @@
 
 import { url } from "inspector";
 import { useState } from "react";
+import { useRouter } from "next/navigation"; // Import the router for navigation
 
 export default function Home() {
   const [error, setError] = useState<string | null>(null);
   const [shortenedURL, setShortenedURL] = useState<string | null>(null);
+  const router = useRouter(); // Initialize the router
 
   async function makeCall(url: string) {
     const data = {
@@ -40,18 +42,37 @@ export default function Home() {
     makeCall(url);
   }
 
+
+  function copyToClipboard() {
+    if (shortenedURL) {
+      const newURL = `http://localhost:3000/${shortenedURL}`;
+      /* Copy text into clipboard */
+      navigator.clipboard.writeText(newURL)
+    }
+  }
+
+  function navigateToEdit() {
+    if (shortenedURL) {
+      router.push(`/${shortenedURL}/edit`)
+    }
+  }
+
   return (
-    <div className="p-4 space-y-4">
-      <center>URL Shortener</center>
+    <div className="p-4 space-y-4" style={{ margin: "10px" }}>
+      <center className="text-100px">URL Shortener</center>
       {error && <p>error: {error}</p>}
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="url">Enter URL to shorten: </label>
-          <input type="text" name="url" id="url" className="form-controls border-2 border-black" />
+          <input type="text" name="url" id="url" className="form-controls border-2 border-black" style={{ margin: "10px", width: "600px", height: "40px", fontSize: "16px" }} />
         </div>
         <button type="submit" className="border-2 border-black px-1 py-1 rounded">Shorten</button>
         {shortenedURL && <p>New URL: http://localhost:3000/{shortenedURL}</p>}
+        {shortenedURL && <button type="button" onClick={copyToClipboard} className="border-2 border-black px-1 py-1 rounded">Copy</button>}
+        {shortenedURL && <button type="button" value="redirect" onClick={navigateToEdit} className="border-2 border-black px-1 py-1 rounded">Customize</button>}
       </form>
+      <div></div>
     </div>
+
   );
 }

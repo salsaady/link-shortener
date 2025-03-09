@@ -1,6 +1,5 @@
 "use client";
 
-import { url } from "inspector";
 import { useState } from "react";
 import { useRouter } from "next/navigation"; // Import the router for navigation
 
@@ -44,17 +43,18 @@ export default function Home() {
 
 
   function copyToClipboard() {
+   console.log("i clicked copy and this is my new url ",{shortenedURL})
     if (shortenedURL) {
       const newURL = `http://localhost:3000/${shortenedURL}`;
       /* Copy text into clipboard */
+      console.log("i clicked copy and this is my new url ",{shortenedURL})
       navigator.clipboard.writeText(newURL)
     }
   }
 
-  function navigateToEdit() {
-    if (shortenedURL) {
-      router.push(`/${shortenedURL}/edit`)
-    }
+function navigateToEdit() {
+    console.log("customize button was  clicked")
+      router.push(`./${shortenedURL}/edit`)
   }
 
   return (
@@ -64,7 +64,7 @@ export default function Home() {
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="url">Enter URL to shorten: </label>
-          <input type="text" name="url" id="url" className="form-controls border-2 border-black" style={{ margin: "10px", width: "600px", height: "40px", fontSize: "16px" }} />
+          <input type="text" name="url" id="url" className="form-controls border-2 border-black rounded-md" style={{ margin: "10px", width: "600px", height: "40px", fontSize: "16px" }} />
         </div>
         <button type="submit" className="border-2 border-black px-1 py-1 rounded">Shorten</button>
         {shortenedURL && <p>New URL: http://localhost:3000/{shortenedURL}</p>}

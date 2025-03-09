@@ -50,27 +50,65 @@ export default function EditPage(){
   };
 
   return (
-    <div className="p-4 space-y-4" style={{ margin: "10px" }}>
-      <center className="text-100px">Customize your shortened URL!</center>
-      {error && <p>error: {error}</p>}
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="url">Edit your URL: http://localhost:3000/ </label>
-          <input 
-        value={newId} // Bind input to state
-        onChange={handleInputChange} // Handle changes
-        type="text"
-        name="url"
-        id="url"
-        className="form-controls border-2 border-black rounded-md"
-        style={{ margin: "10px", width: "600px", height: "40px", fontSize: "16px" }}
-      />        </div>
-        <button type="submit" className="border-2 border-black px-1 py-1 rounded">Save</button>
-        {customizedURL && <p>New URL: http://localhost:3000/{customizedURL}</p>}
-        {customizedURL && <button type="button" onClick={copyToClipboard} className="border-2 border-black px-1 py-1 rounded">Copy</button>}
-      </form>
-      <div></div>
-    </div>
+    <div className="min-h-screen bg-gradient-to-r from-green-200 to-blue-200 flex items-center justify-center p-4">
+      <div className="bg-white rounded shadow p-8 max-w-lg w-full">
+        <h1 className="text-3xl font-bold mb-6 text-center text-gray-800">
+          Customize Your Shortened URL
+        </h1>
 
+        {/* Error Alert */}
+        {error && (
+          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+            {error}
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label htmlFor="url" className="block font-medium mb-1">
+              Edit your URL: http://localhost:3000/
+            </label>
+            <input
+              type="text"
+              id="url"
+              value={newId}
+              onChange={(e) => setNewId(e.target.value)}
+              placeholder="myCustomShortLink"
+              className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          <button
+            type="submit"
+            className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
+          >
+            Save
+          </button>
+        </form>
+
+        {/* Display the newly updated URL */}
+        {customizedURL && (
+          <div className="mt-6 text-center">
+            <p className="mb-2">
+              <span className="font-semibold">New URL:</span>{" "}
+              <a
+                href={customizedURL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-600 underline"
+              >
+                {customizedURL}
+              </a>
+            </p>
+            <button
+              type="button"
+              onClick={copyToClipboard}
+              className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition"
+            >
+              Copy
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
   );
 }

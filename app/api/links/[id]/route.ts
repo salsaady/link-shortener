@@ -15,6 +15,13 @@ export async function PUT(
     });
   }
 
+  const existing = await db.link.findUnique({ where: { id: data.newId } });
+  if (existing) {
+    return new Response(JSON.stringify({ error: "Short code already taken" }), {
+      status: 409,
+    });
+  }
+
   if (!data.newId) {
     return new Response(JSON.stringify({ error: "Missing URL" }), {
       status: 400,
@@ -29,7 +36,7 @@ export async function PUT(
       headers: { "Content-Type": "application/json" },
       status: 200,
     });
-  } catch (error) {
+  } catch (error: any) {
     return new Response(JSON.stringify({ error: "Failed to update URL" }), {
       status: 500,
     });

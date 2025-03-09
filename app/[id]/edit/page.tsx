@@ -18,24 +18,31 @@ export default function EditPage(){
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
        // API expects a PUT request to update the existing link identifier
-       const response = await fetch(`http://localhost:3000/api/links/${thisId}`, {
+       const res = await fetch(`http://localhost:3000/api/links/${thisId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ newId }), // Sending the new custom ID
+        body: JSON.stringify({ newId: newId }), // Sending the new custom ID
       });
-  
-      // if (!response.ok) {
-      //   const data = await response.json();
-      //   setError(data.error);
-      //   return;
-      // }
-      console.log("Tjis is the response: ", response)
-      console.log("This is the new id: ", newId)
-      if (response.ok)
+      if (!res.ok) {
+        const data = await res.json();
+        const { error } = data;
+        setError(error);
+        return;
+      }
+
+      setCustomizedURL(`http://localhost:3000/${newId}`)
       alert('Shortened URL updated successfully!');
   }
+
+  function copyToClipboard() {
+    console.log("i clicked copy and this is my new url ",{customizedURL})
+     if (customizedURL) {
+       navigator.clipboard.writeText(customizedURL)
+       alert('Copied to clipboard')
+     }
+   }
 
   // Handler to update the state when the input changes
   const handleInputChange = (event: { target: { value: SetStateAction<string>; }; }) => {
@@ -59,9 +66,8 @@ export default function EditPage(){
         style={{ margin: "10px", width: "600px", height: "40px", fontSize: "16px" }}
       />        </div>
         <button type="submit" className="border-2 border-black px-1 py-1 rounded">Save</button>
-        {/* {shortenedURL && <p>New URL: http://localhost:3000/{shortenedURL}</p>}
-        {shortenedURL && <button type="button" onClick={copyToClipboard} className="border-2 border-black px-1 py-1 rounded">Copy</button>}
-        {shortenedURL && <button type="button" value="redirect" onClick={navigateToEdit} className="border-2 border-black px-1 py-1 rounded">Customize</button>} */}
+        {customizedURL && <p>New URL: http://localhost:3000/{customizedURL}</p>}
+        {customizedURL && <button type="button" onClick={copyToClipboard} className="border-2 border-black px-1 py-1 rounded">Copy</button>}
       </form>
       <div></div>
     </div>

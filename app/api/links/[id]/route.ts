@@ -1,5 +1,7 @@
 import db from "@/lib/db";
 
+export const dynamic = "force-dynamic"; // don't prerender
+
 // Handle PUT request to update the existing URL
 export async function PUT(
   request: Request,

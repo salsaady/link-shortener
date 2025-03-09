@@ -1,5 +1,7 @@
 import db from "@/lib/db";
 
+export const dynamic = "force-dynamic"; // don't prerender
+
 // Redirect shortened URL to original URL
 export async function GET(
   request: Request,

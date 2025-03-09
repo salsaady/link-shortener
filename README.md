@@ -1,37 +1,42 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Link Shortener
 
-## Getting Started
+A simple and customizable URL shortener built with Next.js, Prisma, and Tailwind CSS. This project allows users to shorten URLs, customize the shortened path, and easily copy the resulting link.
 
-First, run the development server:
+## Features
+- Generate short URLs from full links
+- Customize generated short codes
+- Copy shortened URL to clipboard
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Tech Stack
+- **Next.js** – React framework
+- **Prisma** – ORM for database operations
+- **Tailwind CSS** – Utility-first CSS framework
+- **TypeScript** – For type safety
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Setup
+1. **Clone the repo: **
+   ```git clone https://github.com/your-username/link-shortener.git```
+   ```cd link-shortener```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+2. **Run the following command to install all required dependencies: **
+  ```npm install```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+3. **Configure your database: **
+  ```DATABASE_URL="postgresql://USER:PASSWORD@localhost:5432/database_name?schema=public"```
 
-## Learn More
+4. **Run Prisma migrations: **
+   ```npx prisma migrate dev --name init```
 
-To learn more about Next.js, take a look at the following resources:
+5. **Start the development server: **
+   ```npm run dev```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Open http://localhost:3000 in your browser.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Usage
+- **Shorten a URL:** Enter a full URL on the homepage and click "Shorten".
+- **Customize:** Click "Customize" next to your short URL to set a custom code.
+- **Copy:** Use the "Copy" button to copy the URL to your clipboard.
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
-# link-shortener
+## Error Handling
+- If a custom short code already exists (unique constraint violation), you will receive a conflict error (HTTP 409) stating "Short code already taken."
+- Other errors such as invalid input or missing URL will also be handled appropriately, and error messages will be displayed on the UI.
